@@ -18,7 +18,15 @@ def generate_fibonacci_sequence(n: int) -> list:
     Learning Outcomes: Functions, Loops (1D), Control Flow, Data Structures (lists), Problem-solving.
     """
     # TODO: Implement this function
-    pass
+    lst = list()
+    lst.extend( [0, 1] )
+    if n <= 0: return []
+    if n == 1 or n == 2: return lst[:n]
+    
+    while len( lst ) < n:
+        lst.append( lst[-1] + lst[-2] )
+
+    return lst
 
 
 def is_palindrome_advanced(text: str) -> bool:
@@ -37,7 +45,14 @@ def is_palindrome_advanced(text: str) -> bool:
     Hint: You might find string methods like .lower(), .isalpha(), or the `re` module useful.
     """
     # TODO: Implement this function
-    pass
+    from string import ascii_lowercase
+    text = text.lower().strip()
+    new_string = ""
+    for char in text:
+        if char in ascii_lowercase:
+            new_string += char
+    
+    return new_string == new_string[::-1]
 
 
 def find_elements_in_matrix_greater_than_value(matrix: list, value: int or float) -> list:
@@ -57,7 +72,13 @@ def find_elements_in_matrix_greater_than_value(matrix: list, value: int or float
     Learning Outcomes: Functions, Loops (2D - nested), Control Flow, Data Structures (lists).
     """
     # TODO: Implement this function
-    pass
+    result = []
+    for line in matrix:
+        for num in line:
+            if num > value:
+                result.append( num ) 
+    
+    return result
 
 
 def format_names_list(names_list: list) -> list:
@@ -81,7 +102,28 @@ def format_names_list(names_list: list) -> list:
     Learning Outcomes: Functions, Loops (1D), String Manipulation (split), Data Structures (lists, dictionaries).
     """
     # TODO: Implement this function
-    pass
+    
+    result = list( dict() )
+    
+    for name in names_list:
+        split_name = name.strip().split( " " )
+        if len( split_name ) == 0 : continue
+        if len( split_name ) == 1 :
+            result.append( 
+                          { 
+                           "first_name" : split_name[0], 
+                           "last_name"  : ""
+                           }, 
+                        )
+        if len( split_name ) == 2 :
+            result.append( 
+                          { 
+                           "first_name" : split_name[0], 
+                           "last_name"  : split_name[1],
+                           }, 
+                        )
+
+    return result
 
 
 def sum_diagonals_square_matrix(matrix: list) -> int or float:
@@ -105,4 +147,22 @@ def sum_diagonals_square_matrix(matrix: list) -> int or float:
     Learning Outcomes: Functions, Loops (1D or 2D), Control Flow, Data Structures (lists of lists), Problem-solving.
     """
     # TODO: Implement this function
-    pass
+    if len( matrix ) <= 0 : return 0
+    if len( matrix ) != len( matrix[0] ): return 0
+    
+    # Even row length
+    if len( matrix[0] ) % 2 == 0 :
+        lest  = [ matrix[i][i] for i in range( len(matrix) ) ]
+        lest += [ matrix[i-1][i-1] for i in range( len(matrix), 0, -1 ) ]
+        return sum( lest )
+    else:
+        x = len( matrix[0] ) // 2 + 1
+        lest = []
+        lest.append( matrix[x][x] )
+        lest  += [ matrix[i][i] for i in range( len(matrix) ) if i != x ]
+        lest += [ matrix[i-1][i-1] for i in range( len(matrix), 0, -1 ) if i != x ]
+    
+    return sum(lest)
+
+print( sum_diagonals_square_matrix( [[1, 2],
+                   [3, 4]]) )
